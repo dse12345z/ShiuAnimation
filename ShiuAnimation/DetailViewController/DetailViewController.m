@@ -18,9 +18,18 @@
 
 @implementation DetailViewController
 
-#pragma mark - setup
+#pragma mark - IBAction
 
--(void)setupViews{
+- (IBAction)buttonAction:(id)sender {
+    // 執行關閉的動畫
+    self.closeBlock();
+}
+
+#pragma mark - private instance method
+
+#pragma mark * init values
+
+- (void)setupViews {
     // 設定顯示圖片
     self.imageView.image = self.selectImage;
     
@@ -34,21 +43,17 @@
     self.navigationController.navigationBar.hidden = YES;
 }
 
--(void)setupShowButton{
+#pragma mark * animate
+
+- (void)setupShowButton {
     // 動畫顯示按鈕
+    __weak DetailViewController *weakSelf = self;
     NSLayoutConstraint *constraintTop = [self.button constraintTopWithSuper];
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations: ^{
         constraintTop.constant = 0;
-        self.button.alpha = 1;
-        [self.view layoutIfNeeded];
-    }completion:nil];
-}
-
-#pragma mark - IBAction
-
-- (IBAction)buttonAction:(id)sender {
-    // 執行關閉的動畫
-    self.closeBlock();
+        weakSelf.button.alpha = 1;
+        [weakSelf.view layoutIfNeeded];
+    } completion:nil];
 }
 
 #pragma mark - life cycle
@@ -58,8 +63,13 @@
     [self setupViews];
 }
 
--(void)viewDidAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self setupShowButton];
 }
+
+- (void)dealloc {
+    NSLog(@"%@", NSStringFromSelector(_cmd));
+}
+
 @end

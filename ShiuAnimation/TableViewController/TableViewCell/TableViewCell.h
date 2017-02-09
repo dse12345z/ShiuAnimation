@@ -10,18 +10,17 @@
 
 @protocol TableViewCellDelegate;
 
-@interface TableViewCell : UITableViewCell<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface TableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
-@property (strong, nonatomic) NSArray *items;
 
-@property(nonatomic, weak)id<TableViewCellDelegate> delegate;
+@property (strong, nonatomic) NSArray *items;
+@property (weak, nonatomic) id <TableViewCellDelegate> delegate;
 
 @end
 
 @protocol TableViewCellDelegate <NSObject>
 @optional
--(void)collectionViewDidSelectedItemIndexPath:(NSIndexPath *)indexPath collcetionView:(UICollectionView *)collectionView forCell:(TableViewCell *)cell;
+- (void)collectionViewDidSelectedItemIndexPath:(NSIndexPath *)indexPath collcetionView:(UICollectionView *)collectionView forCell:(TableViewCell *)cell;
 
 @end

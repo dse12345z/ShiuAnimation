@@ -10,6 +10,8 @@
 
 @implementation CollectionViewCell
 
+#pragma mark - life cycle
+
 - (void)awakeFromNib {
     [super awakeFromNib];
     self.petImageView.layer.borderColor = [UIColor grayColor].CGColor;

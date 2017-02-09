@@ -208,7 +208,7 @@
 				TargetAttributes = {
 					2E974C901E3205C000DACC82 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = R2UVMZLES2;
+						DevelopmentTeam = 9DX345QG47;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -377,8 +377,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = R2UVMZLES2;
+				DEVELOPMENT_TEAM = 9DX345QG47;
 				INFOPLIST_FILE = ShiuAnimation/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ufiSpace.ShiuAnimation;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -389,8 +390,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = R2UVMZLES2;
+				DEVELOPMENT_TEAM = 9DX345QG47;
 				INFOPLIST_FILE = ShiuAnimation/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ufiSpace.ShiuAnimation;
 				PRODUCT_NAME = "$(TARGET_NAME)";

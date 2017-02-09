@@ -6,11 +6,10 @@
 //  Copyright © 2017年 許佳豪. All rights reserved.
 //
 
-
 #import "BrowseAnimation.h"
 
-#define screen_width CGRectGetWidth([UIScreen mainScreen].bounds)
-#define screen_height CGRectGetHeight([UIScreen mainScreen].bounds)
+#define screenWidth CGRectGetWidth([UIScreen mainScreen].bounds)
+#define screenHeight CGRectGetHeight([UIScreen mainScreen].bounds)
 
 @implementation BrowseAnimation
 
@@ -23,7 +22,7 @@
 - (void)animateTransition:(id <UIViewControllerContextTransitioning>)transitionContext {
     UIViewController *fromViewController = [transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     UIViewController *toViewController = [transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
-    CGRect frame = CGRectMake(0, 0, screen_width, screen_height);
+    CGRect frame = CGRectMake(0, 0, screenWidth, screenHeight);
     
     switch (self.styleType) {
         case StyleTypeDefault:
@@ -54,7 +53,7 @@
         case StyleTypeDismiss:
         {
             CGRect dismissFrame = frame;
-            dismissFrame.origin.y += screen_height;
+            dismissFrame.origin.y += screenHeight;
             [UIView animateWithDuration:0.1 delay:0 options:UIViewAnimationOptionCurveEaseIn animations: ^{
                 fromViewController.view.frame = dismissFrame;
             } completion: ^(BOOL finished) {

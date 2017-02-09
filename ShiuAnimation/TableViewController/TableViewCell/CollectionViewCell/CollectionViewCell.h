@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+static NSInteger CollectionViewCellWidth = 300;
+static NSInteger CollectionViewCellHeight = 236;
+
 @interface CollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *petImageView;

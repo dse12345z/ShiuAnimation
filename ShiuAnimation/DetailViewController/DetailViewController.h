@@ -8,19 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^CloseBlock)();
+typedef void (^CloseBlock)();
 
 @interface DetailViewController : UIViewController
 
 /**
  @abstract 使用者選擇的 cell 圖片
  */
-@property(nonatomic, strong)UIImage *selectImage;
+@property(nonatomic, strong) UIImage *selectImage;
 
 /**
  @abstract 關閉 Block
  */
-@property(nonatomic, strong)CloseBlock closeBlock;
+@property(nonatomic, strong) CloseBlock closeBlock;
 
 @end
 

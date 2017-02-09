@@ -9,57 +9,52 @@
 #import "TableViewCell.h"
 #import "CollectionViewCell.h"
 
+static NSString *identifier = @"CollectionViewCell";
+
+@interface TableViewCell () <UICollectionViewDelegate, UICollectionViewDataSource>
+
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+
+@end
+
 @implementation TableViewCell
 
-#pragma mark - Set
+#pragma mark - properties
 
--(void)setItems:(NSArray *)items{
+- (void)setItems:(NSArray *)items {
     _items = items;
     [self.collectionView reloadData];
 }
 
-#pragma mark UICollectionViewDelegate
+#pragma mark - UICollectionViewDelegate
 
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(collectionViewDidSelectedItemIndexPath:collcetionView:forCell:)]) {
         [self.delegate collectionViewDidSelectedItemIndexPath:indexPath collcetionView:collectionView forCell:self];
     }
 }
 
-#pragma mark UICollectionViewDataSource
+#pragma mark - UICollectionViewDataSource
 
--(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.items.count;
 }
 
-
--(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CollectionViewCell" forIndexPath:indexPath];
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    CollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     cell.petImageView.image = [UIImage imageNamed:self.items[indexPath.row]];
     return cell;
 }
 
-#pragma mark - setup
+#pragma mark - private instance method
 
--(void)setupCollectionView{
-    [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:@"CollectionViewCell"];
-    self.collectionView.collectionViewLayout = [self setupCollectionViewFlowLayout];
-    self.collectionView.backgroundColor = [UIColor whiteColor];
-    self.collectionView.showsHorizontalScrollIndicator = NO;
-    self.collectionView.showsVerticalScrollIndicator = NO;
-    self.collectionView.dataSource = self;
-    self.collectionView.delegate = self;
-    self.collectionView.contentInset = UIEdgeInsetsMake(0, 20, 0, 0);
+#pragma mark * init values
+
+- (void)setupCollectionView {
+    [self.collectionView registerNib:[UINib nibWithNibName:NSStringFromClass([CollectionViewCell class]) bundle:nil] forCellWithReuseIdentifier:identifier];
 }
 
--(UICollectionViewFlowLayout*)setupCollectionViewFlowLayout{
-    UICollectionViewFlowLayout *collectionViewLayout = [[UICollectionViewFlowLayout alloc]init];
-    collectionViewLayout.itemSize = CGSizeMake(300,236);
-    collectionViewLayout.minimumInteritemSpacing = 0;
-    collectionViewLayout.minimumLineSpacing = 0;
-    collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    return collectionViewLayout;
-}
+#pragma mark - life cycle
 
 - (void)awakeFromNib {
     [super awakeFromNib];

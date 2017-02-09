@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 #import "UIKit/UIKit.h"
 
-typedef NS_ENUM(NSInteger, StyleType) {
+typedef NS_ENUM (NSInteger, StyleType) {
     StyleTypeDefault,
     StyleTypeFadeIn,
     StyleTypeDismiss,
     StyleTypeDismissNone
 };
 
-@interface BrowseAnimation : NSObject<UIViewControllerAnimatedTransitioning>
+@interface BrowseAnimation : NSObject <UIViewControllerAnimatedTransitioning>
 
 @property (nonatomic, assign) StyleType styleType;
 

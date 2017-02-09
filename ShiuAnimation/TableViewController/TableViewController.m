@@ -13,19 +13,19 @@
 #import "CollectionViewCell.h"
 #import "BrowseAnimation.h"
 
-typedef NS_OPTIONS(NSInteger, SnapShotType) {
+typedef NS_OPTIONS (NSInteger, SnapShotType) {
     SnapShotTypeUp = 1 << 1, // 剪裁上半部分
     SnapShotTypeDown = 1 << 2, // 剪裁下半部分
 };
 
-#define  ScreenWidth   [UIScreen mainScreen].bounds.size.width
-#define  ScreenHeight  [UIScreen mainScreen].bounds.size.height
+#define screenWidth [UIScreen mainScreen].bounds.size.width
+#define screenHeight [UIScreen mainScreen].bounds.size.height
 
-@interface TableViewController ()<TableViewCellDelegate,UITableViewDataSource,UITableViewDelegate,UIViewControllerTransitioningDelegate>
+@interface TableViewController () <TableViewCellDelegate, UITableViewDataSource, UITableViewDelegate, UIViewControllerTransitioningDelegate>
 
-@property (nonatomic,strong)NSMutableArray *items;
-@property (nonatomic,strong)BrowseAnimation *browseAnimation;
-@property (weak, nonatomic)IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray *items;
+@property (nonatomic, strong) BrowseAnimation *browseAnimation;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -45,7 +45,7 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
 
 #pragma mark - TableViewCellDelegate
 
--(void)collectionViewDidSelectedItemIndexPath:(NSIndexPath *)indexPath collcetionView:(UICollectionView *)collectionView forCell:(TableViewCell *)cell{
+- (void)collectionViewDidSelectedItemIndexPath:(NSIndexPath *)indexPath collcetionView:(UICollectionView *)collectionView forCell:(TableViewCell *)cell {
     
     // 獲得 collectionView 點擊 cell 的 imageView
     CollectionViewCell *collectionCell = (CollectionViewCell *)[collectionView cellForItemAtIndexPath:indexPath];
@@ -55,12 +55,12 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
     CGFloat downY = tapImageViewFrame.origin.y + tapImageViewFrame.size.height;
     
     // 上方圖片與下方圖片開始的 Frame
-    CGRect topImageViewOriginalFrame = CGRectMake(0, 0, ScreenWidth, tapY);
-    CGRect downImageViewOriginalFrame = CGRectMake(0, downY, ScreenWidth, ScreenHeight - downY);
+    CGRect topImageViewOriginalFrame = CGRectMake(0, 0, screenWidth, tapY);
+    CGRect downImageViewOriginalFrame = CGRectMake(0, downY, screenWidth, screenHeight - downY);
     
     // 上方圖片與下方圖片結束的 Frame
-    CGRect topImageViewEndFrame = CGRectMake(0, -tapY, ScreenWidth, tapY);
-    CGRect downImageViewEndFrame = CGRectMake(0, ScreenHeight, ScreenWidth, ScreenHeight - downY);
+    CGRect topImageViewEndFrame = CGRectMake(0, -tapY, screenWidth, tapY);
+    CGRect downImageViewEndFrame = CGRectMake(0, screenHeight, screenWidth, screenHeight - downY);
     
     // 獲得當前畫面的 image ，與上方跟下方的 image
     UIImage *snapImage = [self snapShotToImage];
@@ -89,8 +89,8 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
     // 動畫開始
     __weak TableViewController *weakSelf = self;
     __block NSMutableArray *collectionViewImageViews = collectionViewImageViewsInfo[@"collectionViewImageViews"];
-    [UIView animateWithDuration:0.3 delay:0.1 options:UIViewAnimationOptionCurveEaseOut animations:^{
-    
+    [UIView animateWithDuration:0.3 delay:0.1 options:UIViewAnimationOptionCurveEaseOut animations: ^{
+        
         // 上方的圖片往上移動
         topAnimationImageView.frame = topImageViewEndFrame;
         
@@ -107,12 +107,12 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
         
         // tableview 隱藏起來
         weakSelf.tableView.hidden = YES;
-    }completion:^(BOOL finished) {
+    } completion: ^(BOOL finished) {
         // 自定義動畫效果
         DetailViewController *detailViewController = [[DetailViewController alloc] init];
         detailViewController.selectImage = collectionCell.petImageView.image;
         UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:detailViewController];
-        navigationController.transitioningDelegate = (id<UIViewControllerTransitioningDelegate>)self;
+        navigationController.transitioningDelegate = (id <UIViewControllerTransitioningDelegate>)self;
         navigationController.modalPresentationStyle = UIModalPresentationCustom;
         
         // 設定結束時動畫
@@ -140,17 +140,16 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
     }];
 }
 
--(CloseBlock)closeAnimationWithTopImage:(UIImage *)topImage
-              topImageViewOriginalFrame:(CGRect)topImageViewOriginalFrame
-                   topImageViewEndFrame:(CGRect)topImageViewEndFrame
-                              downImage:(UIImage *)downImage
-             downImageViewOriginalFrame:(CGRect)downImageViewOriginalFrame
-                  downImageViewEndFrame:(CGRect)downImageViewEndFrame
-                          visiableCells:(NSArray *)visibleCells
-                     imageViewEndFrames:(NSArray *)imageViewEndFrames
-                imageViewOriginalFrames:(NSArray *)imageViewOriginalFrames
-                  presentViewController:(DetailViewController *)detailViewController
-{
+- (CloseBlock)closeAnimationWithTopImage:(UIImage *)topImage
+               topImageViewOriginalFrame:(CGRect)topImageViewOriginalFrame
+                    topImageViewEndFrame:(CGRect)topImageViewEndFrame
+                               downImage:(UIImage *)downImage
+              downImageViewOriginalFrame:(CGRect)downImageViewOriginalFrame
+                   downImageViewEndFrame:(CGRect)downImageViewEndFrame
+                           visiableCells:(NSArray *)visibleCells
+                      imageViewEndFrames:(NSArray *)imageViewEndFrames
+                 imageViewOriginalFrames:(NSArray *)imageViewOriginalFrames
+                   presentViewController:(DetailViewController *)detailViewController {
     // 設定關閉 block
     CloseBlock closeBlock = ^(){
         
@@ -159,7 +158,7 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
         topAnimationImageView.frame = topImageViewEndFrame;
         topAnimationImageView.image = topImage;
         [detailViewController.view.window addSubview:topAnimationImageView];
-    
+        
         // 下方的圖片
         UIImageView *downAnimationImageView = [[UIImageView alloc] init];
         downAnimationImageView.frame = downImageViewEndFrame;
@@ -181,7 +180,7 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
         
         // 動畫開始
         __weak TableViewController *weakSelf = self;
-        [UIView animateWithDuration:0.3 delay:0.1 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [UIView animateWithDuration:0.3 delay:0.1 options:UIViewAnimationOptionCurveEaseOut animations: ^{
             
             // 上方的圖片往下移動
             topAnimationImageView.frame = topImageViewOriginalFrame;
@@ -199,7 +198,7 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
             
             // 詳細頁面的 view 隱藏
             detailViewController.view.hidden = YES;
-        }completion:^(BOOL finished) {
+        } completion: ^(BOOL finished) {
             
             // 當完成動畫時清除動畫圖片
             [topAnimationImageView removeFromSuperview];
@@ -229,7 +228,7 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TableViewCell" forIndexPath:indexPath];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.titleLabel.text = [NSString stringWithFormat:@"貓咪紅牌 第 %ld 區",(long)indexPath.row+1];
+    cell.titleLabel.text = [NSString stringWithFormat:@"貓咪紅牌 第 %ld 區", (long)indexPath.row + 1];
     cell.items = self.items[indexPath.row];
     cell.delegate = self;
     return cell;
@@ -243,11 +242,11 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
     self.browseAnimation = [BrowseAnimation new];
 }
 
--(void)setupInitValue{
+- (void)setupInitValue {
     self.title = @"貓貓紅牌榜";
 }
 
--(void)setupTableView{
+- (void)setupTableView {
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.tableView.estimatedRowHeight = 300;
@@ -257,11 +256,11 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
     [self.tableView reloadData];
 }
 
--(void)setupTableViewData{
+- (void)setupTableViewData {
     self.items = [NSMutableArray new];
-    NSArray *items1 = @[@"1",@"2",@"3",@"4",@"5"];
-    NSArray *items2 = @[@"6",@"7",@"8",@"9",@"10"];
-    NSArray *items3 = @[@"11",@"12",@"13",@"14",@"15"];
+    NSArray *items1 = @[@"1", @"2", @"3", @"4", @"5"];
+    NSArray *items2 = @[@"6", @"7", @"8", @"9", @"10"];
+    NSArray *items3 = @[@"11", @"12", @"13", @"14", @"15"];
     [self.items addObject:items1];
     [self.items addObject:items2];
     [self.items addObject:items3];
@@ -269,7 +268,7 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
 
 #pragma mark * misc
 
--(UIImage *)snapShotToImage{
+- (UIImage *)snapShotToImage {
     // 將目前的畫面製作成圖片
     UIGraphicsBeginImageContextWithOptions(self.view.window.bounds.size, self.view.window.opaque, 0);
     [self.view.window.layer renderInContext:UIGraphicsGetCurrentContext()];
@@ -278,7 +277,7 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
     return aImage;
 }
 
--(UIImage *)separationImage:(UIImage *)image point:(CGFloat)tapImageViewTopY snapShotType:(SnapShotType)snapShotType{
+- (UIImage *)separationImage:(UIImage *)image point:(CGFloat)tapImageViewTopY snapShotType:(SnapShotType)snapShotType {
     // 將圖片剪裁
     // 因為是取得點擊圖片的最小的 y 值，所以會有兩種情況必須要做判斷
     // 第一種：tapImageViewTopY 必須要大於 0 ，如果小於 0 的話代表點擊的圖片上半部份超出螢幕外面，所以就不做剪裁動作。
@@ -289,7 +288,7 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
     
     BOOL isOverTopScreen = tapImageViewTopY > 0;
     BOOL isOverDownScreen = tapImageViewTopY < imageSize.height;
-    if (isOverTopScreen && isOverDownScreen){
+    if (isOverTopScreen && isOverDownScreen) {
         switch (snapShotType) {
             case SnapShotTypeUp:
                 rect = CGRectMake(0, 0, imageSize.width * scale, tapImageViewTopY * scale);
@@ -306,7 +305,7 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
     return nil;
 }
 
--(NSDictionary *)findImageViewsFromCollectionView:(UICollectionView *)collectionView {
+- (NSDictionary *)findImageViewsFromCollectionView:(UICollectionView *)collectionView {
     
     NSArray *cells = collectionView.visibleCells;
     NSMutableArray *collectionViewImageViews = [NSMutableArray arrayWithCapacity:cells.count];
@@ -326,12 +325,12 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
     }
     // collectionViewImageViews:存放中間部分目前可視的 cell 圖片
     // collectionViewImageViewsFrame :存放中間部分目前可視的 cell 圖片 frame
-    return @{@"collectionViewImageViews" : collectionViewImageViews,@"collectionViewImageViewsFrame" : collectionViewImageViewsFrame};
+    return @{ @"collectionViewImageViews" : collectionViewImageViews, @"collectionViewImageViewsFrame" : collectionViewImageViewsFrame };
 }
 
--(NSMutableArray *)calculateEndFrameWithImageViewOriginalFrames:(NSArray *)imageViewOriginalFrames tapImageViewFrame:(CGRect)tapImageViewFrame{
+- (NSMutableArray *)calculateEndFrameWithImageViewOriginalFrames:(NSArray *)imageViewOriginalFrames tapImageViewFrame:(CGRect)tapImageViewFrame {
     // 中間圖片高度 2:3
-    CGRect tapImageViewEndFrame = CGRectMake(0, 0, ScreenWidth, ScreenWidth * 2.0 / 3.0);
+    CGRect tapImageViewEndFrame = CGRectMake(0, 0, screenWidth, screenWidth * 2.0 / 3.0);
     NSMutableArray *animationEndFrames = [NSMutableArray arrayWithCapacity:imageViewOriginalFrames.count];
     
     // 開始計算
@@ -346,11 +345,12 @@ typedef NS_OPTIONS(NSInteger, SnapShotType) {
         if (isTapImageViewLeft) {
             // 在左邊
             CGFloat detla = tapImageViewFrame.origin.x - rect.origin.x;
-            targetRect.origin.x = -(detla * ScreenWidth) / tapImageViewFrame.size.width;
-        }else if (isTapImageViewRight) {
+            targetRect.origin.x = -(detla * screenWidth) / tapImageViewFrame.size.width;
+        }
+        else if (isTapImageViewRight) {
             // 在右邊
             CGFloat detla = rect.origin.x - tapImageViewFrame.origin.x;
-            targetRect.origin.x = (detla * ScreenWidth) / tapImageViewFrame.size.width;
+            targetRect.origin.x = (detla * screenWidth) / tapImageViewFrame.size.width;
         }
         // 儲存起來
         NSValue *targetValue = [NSValue valueWithCGRect:targetRect];
